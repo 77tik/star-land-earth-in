@@ -90,6 +90,16 @@ func get_skill(skill_index: int) -> BaseSkill:
 		return null
 	return skills[skill_index]
 
+func get_portrait_texture() -> Texture2D:
+	if not animated_sprite or not animated_sprite.sprite_frames:
+		return null
+	var portrait_animation = "SE_IDLE"
+	if not animated_sprite.sprite_frames.has_animation(portrait_animation):
+		portrait_animation = animated_sprite.animation
+	if not animated_sprite.sprite_frames.has_animation(portrait_animation):
+		return null
+	return animated_sprite.sprite_frames.get_frame_texture(portrait_animation, 0)
+
 ## 受到伤害
 func take_damage(amount: int) -> void:
 	_current_hp -= amount

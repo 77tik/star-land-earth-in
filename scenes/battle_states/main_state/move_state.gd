@@ -7,10 +7,23 @@ var _is_moving: bool = false
 
 func _on_enter() -> void:
 	_is_moving = false
+	battle.hide_skill_bar()
+	battle.show_unit_selector()
+	battle.set_can_switch_friendly_unit(true)
 	var unit = battle.get_main_unit()
 	if not unit:
 		push_warning("MoveState: No main unit found!")
 		return
+
+	_refresh_for_current_unit(unit)
+
+func _refresh_for_current_unit(unit: Unit) -> void:
+	battle.show_skull_on_unit(unit)
+	battle.range_selector.clear_range("")
+	battle.path_painter.clear_all_paths()
+	_reachable_cells.clear()
+	_parents.clear()
+	_last_hovered_tile = Vector2i(-999, -999)
 
 	# 0. 备份状态（用于重置）
 	battle.backup_game_state()
@@ -21,15 +34,15 @@ func _on_enter() -> void:
 	var result = battle.grid_calculator.get_reachable_cells(unit)
 	_reachable_cells = result.get("cost_so_far", {})
 	_parents = result.get("parents", {})
-	
+
 	# 2. 显示移动范围
 	var cells: Array[Vector2i] = []
 	cells.assign(_reachable_cells.keys())
 	battle.range_selector.show_range(cells, "move_range", Color(0.4, 0.6, 1.0, 0.5))
 
-
 func _on_exit() -> void:
 	_is_moving = false
+	battle.set_can_switch_friendly_unit(false)
 	battle.range_selector.clear_range("")
 	battle.path_painter.clear_all_paths()
 	_reachable_cells.clear()
@@ -52,7 +65,13 @@ func _state_process(_delta: float) -> void:
 
 func _state_input(event: InputEvent) -> void:
 	if _is_moving: return
-	
+
+	if event is InputEventKey and event.pressed:
+		var switched_unit = battle.try_select_friendly_unit(event)
+		if switched_unit:
+			on_unit_selector_switch(switched_unit)
+			return
+
 	if event.is_action_pressed("mouse_left"):
 		var current_tile = battle.game_area.get_hovered_tile()
 
@@ -80,21 +99,27 @@ func _state_input(event: InputEvent) -> void:
 		if not _is_moving:
 			battle.reset_state()
 
+func on_unit_selector_switch(unit: Unit) -> void:
+	if _is_moving:
+		return
+	_refresh_for_current_unit(unit)
+
 func _move_unit(path: Array) -> void:
 	_is_moving = true
 
 	# 移动前清除高亮和路径
+	battle.set_can_switch_friendly_unit(false)
 	battle.range_selector.clear_range("")
 	battle.path_painter.clear_all_paths()
-	
+
 	# 移动开始时隐藏骷髅图标
 	battle.hide_skull()
-	
+
 	# 执行移动
 	if path.size() > 1:
 		battle.unit_mover.move_unit(battle.get_main_unit(), path)
 		await battle.unit_mover.move_finished
-	
+
 	parent_fsm.change_state("AttackState")
 
 func _update_path_preview(target_tile: Vector2i) -> Vector2i:

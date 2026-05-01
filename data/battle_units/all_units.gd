@@ -63,6 +63,28 @@ func get_all_units() -> Array[Unit]:
 			result.append(unit)
 	return result
 
+func get_friendly_units() -> Array[Unit]:
+	var result: Array[Unit] = []
+	for unit in get_all_units():
+		if unit and unit.get_faction() == Unit.Faction.FRIENDLY:
+			result.append(unit)
+	return result
+
+func set_current_unit_index(index: int) -> bool:
+	if index < 0 or index >= get_count():
+		return false
+	var unit = get_unit_by_index(index)
+	if not unit or unit.get_faction() != Unit.Faction.FRIENDLY:
+		return false
+	current_unit_index = index
+	return true
+
+func get_index_of_unit(target_unit: Unit) -> int:
+	for i in range(get_count()):
+		if get_unit_by_index(i) == target_unit:
+			return i
+	return -1
+
 ## 获取所有BUnit数组（按顺序）
 func get_all_b_units() -> Array[BUnit]:
 	var result: Array[BUnit] = []

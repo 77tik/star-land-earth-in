@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx6m1e6m4y7s1"]
+
+[ext_resource type="Script" path="res://scenes/ui/skill_card/skill_card.gd" id="1_xr3k0"]
+[ext_resource type="FontFile" path="res://assets/font/unifont-15.1.04（默认版）.otf" id="2_font0"]
+
+[node name="SkillCard" type="Panel"]
+custom_minimum_size = Vector2(78, 39)
+mouse_default_cursor_shape = 2
+script = ExtResource("1_xr3k0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TopRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HotkeyLabel" type="Label" parent="MarginContainer/VBoxContainer/TopRow"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_font0")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "1"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font0")
+theme_override_font_sizes/font_size = 10
+text = "技能名称"
+autowrap_mode = 0
+text_overrun_behavior = 3
+clip_text = true
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_font0")
+theme_override_font_sizes/font_size = 11
+text = "技能描述"
+autowrap_mode = 3
+vertical_alignment = 1

@@ -8,6 +8,7 @@ extends BaseState
 # ==============================================================================
 
 func _on_enter() -> void:
+	battle.hide_skill_bar()
 	print("EnemyState: Entered")
 	var unit = battle.get_main_unit()
 	if not unit:

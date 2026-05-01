@@ -27,6 +27,8 @@ var direction: Vector2i = Vector2i.ZERO
 
 func _on_enter() -> void:
 	print("SkillStateMachine: Entered")
+	battle.show_skill_bar()
+	battle.update_skill_bar_selection()
 	_reset_data()
 	
 	current_skill = battle.get_current_skill()
@@ -41,6 +43,7 @@ func _on_enter() -> void:
 
 func _on_exit() -> void:
 	_clear_visuals()
+	battle.clear_selected_skill()
 	_reset_data()
 	super._on_exit()
 

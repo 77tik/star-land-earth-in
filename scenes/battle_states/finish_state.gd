@@ -9,6 +9,7 @@ extends BaseState
 # ==============================================================================
 
 func _on_enter() -> void:
+	battle.hide_skill_bar()
 	print("FinishState: Entered")
 	
 	if battle.active_units.is_empty():

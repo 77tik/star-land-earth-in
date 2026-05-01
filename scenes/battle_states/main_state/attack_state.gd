@@ -9,14 +9,17 @@ func _on_enter() -> void:
 	if not unit:
 		push_warning("AttackState: No main unit found!")
 		return
-	
+
+	battle.show_skill_bar()
+	battle.update_skill_bar_selection()
+
 	# 0. 显示骷髅图标 (重新定位并显示)
 	battle.show_skull_on_unit(unit)
-	
+
 	# 1. 获取并显示攻击范围
 	var center_pos = battle.game_area.game_grid.get_unit_position(unit)
 	var range_val = unit.get_attack_range()
-	
+
 	_attackable_cells = battle.range_calculator.get_range_cells(center_pos, range_val)
 	battle.range_selector.show_range(_attackable_cells, "attack_range", Color(1, 0, 0, 0.5))
 

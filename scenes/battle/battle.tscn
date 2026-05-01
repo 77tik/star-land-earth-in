@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://dsbkrku32wmt6" path="res://scenes/battle/game_area/game_area.gd" id="8_py4tk"]
 [ext_resource type="Script" uid="uid://34v5ou3uyia8" path="res://scenes/battle/game_grid/game_grid.gd" id="9_agsc7"]
 [ext_resource type="PackedScene" uid="uid://d2qjvxor7ulxr" path="res://scenes/highlight_line/highlight_selector/highlight_selector.tscn" id="11_fisqk"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skill_card/skill_card.tscn" id="11_xl21m"]
+[ext_resource type="PackedScene" path="res://scenes/ui/unit_selector_item/unit_selector_item.tscn" id="11_unit0"]
 [ext_resource type="Script" uid="uid://5b63qudjfbne" path="res://scenes/battle_states/main_state/skill_state_machine.gd" id="11_n5ix6"]
 [ext_resource type="Script" uid="uid://3rl020fght7c" path="res://scenes/battle_states/skill_state/get_cast_range.gd" id="11_ueicy"]
 [ext_resource type="Script" uid="uid://brljgi4a67uhn" path="res://scripts/unit_spawner.gd" id="12_mxe8n"]
@@ -161,3 +163,67 @@ attack_processor = NodePath("../AttackProcessor")
 [node name="GameReseter" type="Node" parent="." unique_id=1986243416 node_paths=PackedStringArray("game_area")]
 script = ExtResource("24_pyfix")
 game_area = NodePath("../GameArea")
+
+[node name="SkillBarLayer" type="CanvasLayer" parent="."]
+
+[node name="UnitSelectorLayer" type="CanvasLayer" parent="."]
+
+[node name="UnitSelectorRoot" type="Control" parent="UnitSelectorLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UnitSelectorMargin" type="MarginContainer" parent="UnitSelectorLayer/UnitSelectorRoot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 72.0
+offset_bottom = 180.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+mouse_filter = 2
+
+[node name="UnitSelectorContainer" type="VBoxContainer" parent="UnitSelectorLayer/UnitSelectorRoot/UnitSelectorMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SkillBarRoot" type="Control" parent="SkillBarLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SkillBarMargin" type="MarginContainer" parent="SkillBarLayer/SkillBarRoot"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+mouse_filter = 2
+
+[node name="SkillCardContainer" type="HBoxContainer" parent="SkillBarLayer/SkillBarRoot/SkillBarMargin"]
+layout_mode = 2
+alignment = 1
+size_flags_horizontal = 4
+theme_override_constants/separation = 4
